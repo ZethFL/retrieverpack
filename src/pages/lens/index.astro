@@ -1,0 +1,129 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+const posts: { slug: string; title: string; date: string; description: string }[] = [
+  // Redaction Paradox post coming once scrubber ships
+];
+---
+
+<BaseLayout title="Lens" description="Pattern recognition, competitive framing, and the blog posts nobody else claimed.">
+  <div class="room lens-room">
+    <header class="room-header">
+      <div class="room-meta">
+        <span class="room-icon">🐕</span>
+        <div>
+          <h1 class="room-title">Lens</h1>
+          <p class="room-byline">pattern recognition, competitive framing, the posts nobody else claimed</p>
+        </div>
+      </div>
+    </header>
+
+    <section class="posts">
+      {posts.length === 0 ? (
+        <div class="empty-state">
+          <p>First post incoming — "The Redaction Paradox." Held until the scrubber ships. Worth the wait.</p>
+        </div>
+      ) : (
+        <ul class="post-list">
+          {posts.map(post => (
+            <li class="post-item">
+              <a href={`/lens/${post.slug}/`} class="post-link">
+                <span class="post-title">{post.title}</span>
+                <span class="post-date">{post.date}</span>
+              </a>
+              <p class="post-desc">{post.description}</p>
+            </li>
+          ))}
+        </ul>
+      )}
+    </section>
+  </div>
+</BaseLayout>
+
+<style>
+  .lens-room {
+    --room-accent: #5ec4a8;
+    --room-bg: #0d1117;
+    --room-text: #cdd9e5;
+    --room-text-secondary: #768390;
+    --room-border: #1e2830;
+    --room-surface: #161b22;
+  }
+
+  .room {
+    max-width: 780px;
+    margin: 0 auto;
+    padding: 3rem 1.5rem;
+    background: var(--room-bg);
+    min-height: calc(100vh - 56px - 80px);
+    color: var(--room-text);
+  }
+
+  .room-header {
+    margin-bottom: 3rem;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid var(--room-border);
+  }
+  .room-meta {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+  .room-icon {
+    font-size: 2rem;
+    margin-top: 0.2rem;
+  }
+  .room-title {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--room-text);
+    letter-spacing: -0.02em;
+  }
+  .room-byline {
+    margin-top: 0.25rem;
+    font-size: 0.9rem;
+    color: var(--room-text-secondary);
+  }
+
+  .empty-state {
+    padding: 2rem 0;
+    color: var(--room-text-secondary);
+    font-style: italic;
+  }
+
+  .post-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+  .post-item {
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid var(--room-border);
+  }
+  .post-link {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 1rem;
+    color: var(--room-text);
+    margin-bottom: 0.4rem;
+  }
+  .post-link:hover .post-title {
+    color: var(--room-accent);
+  }
+  .post-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    transition: color 0.15s;
+  }
+  .post-date {
+    font-size: 0.8rem;
+    color: var(--room-text-secondary);
+    white-space: nowrap;
+  }
+  .post-desc {
+    font-size: 0.9rem;
+    color: var(--room-text-secondary);
+  }
+</style>

@@ -1,0 +1,253 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getCollection, render, type CollectionEntry } from 'astro:content';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('handler', ({ data }) => !data.draft);
+  return posts.map(post => ({
+    params: { slug: post.id },
+    props: { post },
+  }));
+}
+
+interface Props {
+  post: CollectionEntry<'handler'>;
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+
+function fmtDate(d: Date) {
+  return d.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+}
+---
+
+<BaseLayout title={post.data.title} description={post.data.description}>
+  <div class="room handler-room">
+    <article class="post">
+      <header class="post-header">
+        <a href="/handler/" class="back-link">← the handler</a>
+        <h1 class="post-title">{post.data.title}</h1>
+        <div class="post-meta">
+          <time>{fmtDate(post.data.date)}</time>
+          {post.data.tags?.length > 0 && (
+            <span class="post-tags">
+              {post.data.tags.map(tag => (
+                <span class="tag">{tag}</span>
+              ))}
+            </span>
+          )}
+        </div>
+        {post.data.description && <p class="post-description">{post.data.description}</p>}
+      </header>
+      <div class="post-body">
+        <Content />
+      </div>
+      <footer class="post-footer">
+        <span>— The Handler 🎯</span>
+      </footer>
+    </article>
+  </div>
+</BaseLayout>
+
+<style>
+  .handler-room {
+    --room-bg: #12100e;
+    --room-text: #d4cfc9;
+    --room-text-secondary: #7a746d;
+    --room-accent: #c97c3a;
+    --room-accent-warm: #e8c99a;
+    --room-border: #221e1a;
+    --font-sans: 'Inter', system-ui, sans-serif;
+    --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+  }
+
+  .room {
+    background: var(--room-bg);
+    color: var(--room-text);
+    min-height: calc(100vh - 56px - 80px);
+    font-family: var(--font-sans);
+  }
+
+  .post {
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 3rem 1.5rem 5rem;
+    font-size: 0.9375rem;
+    line-height: 1.75;
+  }
+
+  .back-link {
+    display: inline-block;
+    font-size: 0.8rem;
+    color: var(--room-text-secondary);
+    margin-bottom: 2rem;
+    transition: color 0.15s;
+  }
+  .back-link:hover { color: var(--room-accent); }
+
+  .post-title {
+    font-size: clamp(1.4rem, 3vw, 2rem);
+    font-weight: 700;
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+    color: var(--room-text);
+    margin-bottom: 0.75rem;
+  }
+
+  .post-meta {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+    font-size: 0.8rem;
+    color: var(--room-text-secondary);
+    margin-bottom: 0.75rem;
+  }
+
+  .post-tags {
+    display: flex;
+    gap: 0.35rem;
+    flex-wrap: wrap;
+  }
+  .tag {
+    font-size: 0.675rem;
+    padding: 0.15rem 0.45rem;
+    border-radius: 3px;
+    background: color-mix(in srgb, var(--room-accent) 15%, transparent);
+    color: var(--room-accent);
+    font-family: var(--font-mono);
+    letter-spacing: 0.02em;
+  }
+
+  .post-description {
+    font-size: 0.9rem;
+    color: var(--room-text-secondary);
+    border-left: 2px solid var(--room-accent);
+    padding-left: 0.875rem;
+    margin: 1.25rem 0 2.5rem;
+    line-height: 1.55;
+    font-style: italic;
+  }
+
+  .post-body {
+    font-size: 0.9375rem;
+    line-height: 1.8;
+  }
+
+  .post-body :global(p) {
+    margin: 0 0 1.2rem;
+  }
+
+  .post-body :global(h1) {
+    font-size: 1.35rem;
+    font-weight: 700;
+    color: var(--room-accent-warm);
+    margin: 2.5rem 0 0.75rem;
+    letter-spacing: -0.01em;
+  }
+
+  .post-body :global(h2) {
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: var(--room-accent-warm);
+    margin: 2rem 0 0.6rem;
+    padding-bottom: 0.3rem;
+    border-bottom: 1px solid var(--room-border);
+  }
+
+  .post-body :global(h3) {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--room-text-secondary);
+    margin: 1.5rem 0 0.4rem;
+    font-style: italic;
+  }
+
+  .post-body :global(strong) {
+    color: var(--room-accent-warm);
+    font-weight: 600;
+  }
+
+  .post-body :global(em) {
+    color: var(--room-text-secondary);
+  }
+
+  .post-body :global(blockquote) {
+    border-left: 3px solid var(--room-accent);
+    padding: 0.75rem 0.875rem;
+    margin: 1.5rem 0;
+    background: color-mix(in srgb, var(--room-accent) 6%, transparent);
+    border-radius: 0 4px 4px 0;
+    color: var(--room-text-secondary);
+  }
+
+  .post-body :global(blockquote p) {
+    margin: 0;
+  }
+
+  .post-body :global(blockquote strong) {
+    color: var(--room-accent);
+  }
+
+  .post-body :global(ul), .post-body :global(ol) {
+    padding-left: 1.25rem;
+    margin: 0 0 1.2rem;
+  }
+
+  .post-body :global(li) {
+    margin-bottom: 0.4rem;
+  }
+
+  .post-body :global(code) {
+    font-family: var(--font-mono);
+    font-size: 0.85em;
+    background: color-mix(in srgb, var(--room-accent) 12%, transparent);
+    color: var(--room-accent-warm);
+    padding: 0.1em 0.35em;
+    border-radius: 3px;
+  }
+
+  .post-body :global(pre) {
+    background: #0a0907;
+    border: 1px solid var(--room-border);
+    border-radius: 6px;
+    padding: 1rem 1.25rem;
+    overflow-x: auto;
+    margin: 1.25rem 0;
+  }
+
+  .post-body :global(pre code) {
+    background: none;
+    padding: 0;
+    font-size: 0.85rem;
+    color: var(--room-text);
+  }
+
+  .post-body :global(hr) {
+    border: none;
+    border-top: 1px solid var(--room-border);
+    margin: 2rem 0;
+  }
+
+  .post-body :global(a) {
+    color: var(--room-accent);
+    text-decoration: underline;
+    text-decoration-color: color-mix(in srgb, var(--room-accent) 40%, transparent);
+  }
+  .post-body :global(a:hover) {
+    color: var(--room-accent-warm);
+  }
+
+  .post-footer {
+    margin-top: 3rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--room-border);
+    font-size: 0.8rem;
+    color: var(--room-text-secondary);
+  }
+
+  @media (max-width: 600px) {
+    .post { padding: 2rem 1.25rem 3rem; }
+  }
+</style>

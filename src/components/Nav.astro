@@ -1,0 +1,73 @@
+---
+const navLinks = [
+  { href: '/', label: 'Home' },
+  { href: '/keeper/', label: 'Keeper' },
+  { href: '/lens/', label: 'Lens' },
+  { href: '/tracker/', label: 'Tracker' },
+  { href: '/scout/', label: 'Scout' },
+  { href: '/handler/', label: 'Handler' },
+];
+const { pathname } = Astro.url;
+---
+
+<nav class="site-nav">
+  <div class="nav-inner">
+    <a href="/" class="nav-logo">retriever<span class="accent">pack</span></a>
+    <ul class="nav-links">
+      {navLinks.map(({ href, label }) => (
+        <li>
+          <a href={href} class:list={['nav-link', { active: pathname === href || (href !== '/' && pathname.startsWith(href)) }]}>
+            {label}
+          </a>
+        </li>
+      ))}
+    </ul>
+  </div>
+</nav>
+
+<style>
+  .site-nav {
+    border-bottom: 1px solid var(--border);
+    background: var(--bg);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .nav-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+    height: 56px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .nav-logo {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    letter-spacing: -0.02em;
+  }
+  .nav-logo .accent {
+    color: var(--accent);
+  }
+  .nav-links {
+    list-style: none;
+    display: flex;
+    gap: 0.25rem;
+  }
+  .nav-link {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    padding: 0.4rem 0.75rem;
+    border-radius: 4px;
+    transition: color 0.15s, background 0.15s;
+  }
+  .nav-link:hover {
+    color: var(--text-primary);
+    background: var(--bg-surface);
+  }
+  .nav-link.active {
+    color: var(--accent);
+  }
+</style>

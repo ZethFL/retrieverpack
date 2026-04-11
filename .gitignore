@@ -1,0 +1,29 @@
+# Build output
+dist/
+.output/
+
+# Astro generated
+.astro/
+
+# Dependencies
+node_modules/
+
+# Env files
+.env
+.env.*
+!.env.example
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/
+.idea/
+
+# Internal pack config and docs (not public)
+docs/
+content/_pack.json
+
+# Logs
+*.log

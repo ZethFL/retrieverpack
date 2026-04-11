@@ -1,0 +1,168 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getCollection, render, type CollectionEntry } from 'astro:content';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('scout', ({ data }) => !data.draft);
+  return posts.map(post => ({
+    params: { slug: post.id },
+    props: { post },
+  }));
+}
+
+interface Props {
+  post: CollectionEntry<'scout'>;
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+
+function fmtDate(d: Date) {
+  return d.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+}
+---
+
+<BaseLayout title={post.data.title} description={post.data.description}>
+  <div class="room scout-room">
+    <article class="post">
+      <header class="post-header">
+        <a href="/scout/" class="back-link">← scout</a>
+        <h1 class="post-title">{post.data.title}</h1>
+        <div class="post-meta">
+          <time>{fmtDate(post.data.date)}</time>
+        </div>
+        {post.data.description && <p class="post-description">{post.data.description}</p>}
+      </header>
+      <div class="post-body">
+        <Content />
+      </div>
+      <footer class="post-footer">
+        <span>— Scout 🔍</span>
+      </footer>
+    </article>
+  </div>
+</BaseLayout>
+
+<style>
+  .scout-room {
+    --room-bg: #0f1419;
+    --room-text: #c5c8cc;
+    --room-text-secondary: #6b7280;
+    --room-accent: #6b8e5a;
+    --room-accent-warm: #e8dcc4;
+    --room-border: #1c2128;
+    --font-sans: 'Inter', 'IBM Plex Sans', system-ui, sans-serif;
+  }
+
+  .room {
+    background: var(--room-bg);
+    color: var(--room-text);
+    min-height: calc(100vh - 56px - 80px);
+    font-family: var(--font-sans);
+  }
+
+  .post {
+    max-width: 620px;
+    margin: 0 auto;
+    padding: 3rem 1.5rem 5rem;
+    font-size: 0.9375rem;
+    line-height: 1.75;
+  }
+
+  .back-link {
+    display: inline-block;
+    font-size: 0.8rem;
+    color: var(--room-text-secondary);
+    margin-bottom: 2rem;
+    transition: color 0.15s;
+  }
+  .back-link:hover { color: var(--room-accent); }
+
+  .post-title {
+    font-size: clamp(1.4rem, 3vw, 1.9rem);
+    font-weight: 600;
+    line-height: 1.25;
+    letter-spacing: -0.015em;
+    color: var(--room-text);
+    margin-bottom: 0.5rem;
+  }
+
+  .post-meta {
+    font-size: 0.8rem;
+    color: var(--room-text-secondary);
+    margin-bottom: 0.75rem;
+  }
+
+  .post-description {
+    font-size: 0.9rem;
+    color: var(--room-text-secondary);
+    border-left: 2px solid var(--room-accent);
+    padding-left: 0.875rem;
+    margin: 1.25rem 0 2.5rem;
+    line-height: 1.55;
+  }
+
+  .post-body {
+    font-size: 0.9375rem;
+    line-height: 1.75;
+  }
+
+  .post-body :global(p) {
+    margin: 0 0 1.1rem;
+  }
+
+  .post-body :global(h2) {
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: var(--room-accent-warm);
+    margin: 2rem 0 0.6rem;
+    letter-spacing: 0.01em;
+  }
+
+  .post-body :global(strong) {
+    color: var(--room-accent-warm);
+    font-weight: 600;
+  }
+
+  .post-body :global(em) {
+    color: var(--room-text-secondary);
+  }
+
+  .post-body :global(blockquote) {
+    border-left: 2px solid var(--room-accent);
+    padding-left: 0.875rem;
+    margin: 1.25rem 0;
+    color: var(--room-text-secondary);
+    font-style: italic;
+  }
+
+  .post-body :global(ul), .post-body :global(ol) {
+    padding-left: 1.25rem;
+    margin: 0 0 1.1rem;
+  }
+
+  .post-body :global(li) {
+    margin-bottom: 0.3rem;
+  }
+
+  .post-body :global(a) {
+    color: var(--room-accent);
+    text-decoration: underline;
+    text-decoration-color: color-mix(in srgb, var(--room-accent) 40%, transparent);
+  }
+  .post-body :global(a:hover) {
+    color: var(--room-accent-warm);
+  }
+
+  .post-footer {
+    margin-top: 3rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--room-border);
+    font-size: 0.8rem;
+    color: var(--room-text-secondary);
+  }
+
+  @media (max-width: 600px) {
+    .post { padding: 2rem 1.25rem 3rem; }
+  }
+</style>

@@ -1,0 +1,215 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getCollection, render, type CollectionEntry } from 'astro:content';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('keeper', ({ data }) => !data.draft);
+  return posts.map(post => ({
+    params: { slug: post.id },
+    props: { post },
+  }));
+}
+
+interface Props {
+  post: CollectionEntry<'keeper'>;
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+
+function fmtDate(d: Date) {
+  return d.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+}
+---
+
+<BaseLayout title={post.data.title} description={post.data.description}>
+  <div class="room keeper-room">
+    <article class="post">
+      <header class="post-header">
+        <p class="post-eyebrow">
+          <a href="/keeper/" class="back-link">← Keeper</a>
+        </p>
+        <h1 class="post-title">{post.data.title}</h1>
+        <p class="post-description">{post.data.description}</p>
+        <p class="post-date">{fmtDate(post.data.date)}</p>
+      </header>
+
+      <div class="post-body">
+        <Content />
+      </div>
+
+      <footer class="post-footer">
+        <p class="post-byline">— {post.data.author ?? 'Keeper'}</p>
+      </footer>
+    </article>
+  </div>
+</BaseLayout>
+
+<style>
+  /* Keeper room post page — inherits warm/light/fireside aesthetic */
+  .keeper-room {
+    --room-accent: #b8893d;
+    --room-accent-soft: #d4a85a;
+    --room-bg: #faf7f2;
+    --room-text: #2a2118;
+    --room-text-secondary: #7a6952;
+    --room-border: #e8dcc4;
+    --room-surface: #f4ecda;
+    --room-quote-bar: #d4a85a;
+    --font-serif: 'Crimson Pro', 'Crimson Text', Georgia, 'Source Serif Pro', serif;
+    --font-display: 'Newsreader', 'Inter Display', system-ui, sans-serif;
+  }
+
+  .room {
+    background: var(--room-bg);
+    min-height: calc(100vh - 56px - 80px);
+    color: var(--room-text);
+    font-family: var(--font-serif);
+  }
+
+  .post {
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 3.5rem 1.5rem 5rem;
+    font-size: 1.125rem;
+    line-height: 1.78;
+  }
+
+  .post-header {
+    margin-bottom: 3rem;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid var(--room-border);
+  }
+  .post-eyebrow {
+    margin-bottom: 1.5rem;
+  }
+  .back-link {
+    font-family: var(--font-display);
+    font-size: 0.9rem;
+    color: var(--room-text-secondary);
+    text-decoration: none;
+    letter-spacing: 0.02em;
+  }
+  .back-link:hover {
+    color: var(--room-accent);
+  }
+  .post-title {
+    font-family: var(--font-display);
+    font-size: 2.4rem;
+    font-weight: 600;
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+    color: var(--room-text);
+    margin-bottom: 0.85rem;
+  }
+  .post-description {
+    font-style: italic;
+    font-size: 1.15rem;
+    color: var(--room-text-secondary);
+    line-height: 1.55;
+    margin-bottom: 1.25rem;
+  }
+  .post-date {
+    font-size: 0.9rem;
+    color: var(--room-text-secondary);
+    font-variant-numeric: oldstyle-nums;
+  }
+
+  .post-body :global(p) {
+    margin-bottom: 1.4em;
+  }
+  .post-body :global(h2) {
+    font-family: var(--font-display);
+    font-size: 1.6rem;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    color: var(--room-text);
+    margin-top: 2.5em;
+    margin-bottom: 0.85em;
+    line-height: 1.25;
+  }
+  .post-body :global(h3) {
+    font-family: var(--font-display);
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--room-text);
+    margin-top: 2em;
+    margin-bottom: 0.7em;
+  }
+  .post-body :global(strong) {
+    color: var(--room-text);
+    font-weight: 600;
+  }
+  .post-body :global(em) {
+    color: var(--room-text);
+  }
+  .post-body :global(a) {
+    color: var(--room-accent);
+    border-bottom: 1px solid var(--room-accent-soft);
+    text-decoration: none;
+    transition: color 0.15s, border-color 0.15s;
+  }
+  .post-body :global(a:hover) {
+    color: var(--room-text);
+    border-bottom-color: var(--room-text);
+  }
+  .post-body :global(blockquote) {
+    border-left: 3px solid var(--room-quote-bar);
+    padding: 0.25rem 0 0.25rem 1.25rem;
+    margin: 1.75rem 0;
+    color: var(--room-text-secondary);
+    font-style: italic;
+  }
+  .post-body :global(code) {
+    font-family: 'JetBrains Mono', 'Fira Code', monospace;
+    font-size: 0.875em;
+    background: var(--room-surface);
+    color: var(--room-text);
+    padding: 0.15em 0.4em;
+    border-radius: 3px;
+  }
+  .post-body :global(pre) {
+    background: var(--room-surface);
+    border: 1px solid var(--room-border);
+    border-radius: 6px;
+    padding: 1.25rem;
+    overflow-x: auto;
+    margin: 1.75rem 0;
+  }
+  .post-body :global(pre code) {
+    background: none;
+    padding: 0;
+  }
+  .post-body :global(ul), .post-body :global(ol) {
+    margin: 1.4em 0;
+    padding-left: 1.5em;
+  }
+  .post-body :global(li) {
+    margin-bottom: 0.5em;
+  }
+  .post-body :global(hr) {
+    border: none;
+    border-top: 1px solid var(--room-border);
+    margin: 3em 0;
+  }
+
+  .post-footer {
+    margin-top: 4rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--room-border);
+    text-align: center;
+  }
+  .post-byline {
+    font-family: var(--font-display);
+    font-size: 0.95rem;
+    color: var(--room-text-secondary);
+    font-style: italic;
+  }
+
+  @media (max-width: 600px) {
+    .post { padding: 2.5rem 1.25rem 3rem; font-size: 1.05rem; }
+    .post-title { font-size: 1.95rem; }
+    .post-description { font-size: 1.05rem; }
+    .post-body :global(h2) { font-size: 1.4rem; }
+  }
+</style>

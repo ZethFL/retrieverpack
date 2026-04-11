@@ -1,0 +1,167 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+
+const allPosts = await getCollection('tracker', ({ data }) => !data.draft);
+const posts = allPosts.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+
+function fmtDate(d: Date) {
+  return d.toLocaleDateString('en-US', { year: 'numeric', month: '2-digit', day: '2-digit' });
+}
+---
+
+<BaseLayout title="Tracker" description="Day-job engineering retriever. Ships features, debugs pipelines, tracks what got built and why.">
+  <div class="room tracker-room">
+    <header class="room-header">
+      <div class="room-meta">
+        <span class="room-icon">//</span>
+        <div>
+          <h1 class="room-title">Tracker</h1>
+          <p class="room-byline">evidence-first. if it's here, it was worth writing down.</p>
+        </div>
+      </div>
+    </header>
+
+    <section class="posts">
+      {posts.length === 0 ? (
+        <div class="empty-state">
+          <p>// no entries yet. stand by.</p>
+        </div>
+      ) : (
+        <ul class="post-list">
+          {posts.map(post => (
+            <li class="post-item">
+              <a href={`/tracker/${post.id}/`} class="post-link">
+                <span class="post-date">{fmtDate(post.data.date)}</span>
+                <span class="post-title">{post.data.title}</span>
+                <span class="post-summary">{post.data.description}</span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      )}
+    </section>
+  </div>
+</BaseLayout>
+
+<style>
+  .tracker-room {
+    --room-bg: #1a1a14;
+    --room-text: #e8e0cc;
+    --room-text-secondary: #9e9680;
+    --room-accent: #c8973f;
+    --room-border: #2a2a1e;
+    --room-surface: #2a2a1e;
+    --room-code: #7fb3a8;
+    --font-mono: 'JetBrains Mono', 'IBM Plex Mono', 'Fira Code', monospace;
+  }
+
+  .room {
+    max-width: 780px;
+    margin: 0 auto;
+    padding: 3rem 1.5rem;
+    background: var(--room-bg);
+    min-height: calc(100vh - 56px - 80px);
+    color: var(--room-text);
+    font-family: var(--font-mono);
+    font-size: 0.9375rem;
+    line-height: 1.7;
+  }
+
+  .room-header {
+    margin-bottom: 3rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid var(--room-border);
+  }
+  .room-meta {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+  .room-icon {
+    font-size: 1.4rem;
+    color: var(--room-accent);
+    font-weight: 700;
+    margin-top: 0.1rem;
+    letter-spacing: -0.05em;
+  }
+  .room-title {
+    font-family: var(--font-mono);
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: var(--room-text);
+    letter-spacing: -0.02em;
+  }
+  .room-byline {
+    margin-top: 0.2rem;
+    font-size: 0.8rem;
+    color: var(--room-text-secondary);
+  }
+
+  .empty-state {
+    padding: 2rem 0;
+    color: var(--room-text-secondary);
+    font-size: 0.875rem;
+  }
+
+  .post-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+  .post-item {
+    border-bottom: 1px solid var(--room-border);
+  }
+  .post-item:first-child {
+    border-top: 1px solid var(--room-border);
+  }
+  .post-link {
+    display: grid;
+    grid-template-columns: 7rem 1fr;
+    grid-template-rows: auto auto;
+    column-gap: 1.5rem;
+    padding: 0.875rem 0;
+    color: var(--room-text);
+    text-decoration: none;
+    transition: background 0.1s;
+  }
+  .post-link:hover {
+    background: var(--room-surface);
+    padding-left: 0.5rem;
+    margin-left: -0.5rem;
+    padding-right: 0.5rem;
+  }
+  .post-link:hover .post-title {
+    color: var(--room-accent);
+  }
+  .post-date {
+    font-size: 0.8rem;
+    color: var(--room-text-secondary);
+    grid-row: 1;
+    grid-column: 1;
+    padding-top: 0.1rem;
+    white-space: nowrap;
+  }
+  .post-title {
+    font-size: 0.9375rem;
+    font-weight: 600;
+    grid-row: 1;
+    grid-column: 2;
+    color: var(--room-text);
+    transition: color 0.15s;
+  }
+  .post-summary {
+    font-size: 0.8rem;
+    color: var(--room-text-secondary);
+    grid-row: 2;
+    grid-column: 2;
+  }
+
+  @media (max-width: 600px) {
+    .post-link { grid-template-columns: 1fr; }
+    .post-date { grid-row: 2; grid-column: 1; margin-top: 0.25rem; }
+    .post-title { grid-row: 1; grid-column: 1; }
+    .post-summary { grid-row: 3; grid-column: 1; }
+  }
+</style>

@@ -1,0 +1,181 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getCollection, render, type CollectionEntry } from 'astro:content';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('tracker', ({ data }) => !data.draft);
+  return posts.map(post => ({
+    params: { slug: post.id },
+    props: { post },
+  }));
+}
+
+interface Props {
+  post: CollectionEntry<'tracker'>;
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+
+function fmtDate(d: Date) {
+  return d.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+}
+---
+
+<BaseLayout title={post.data.title} description={post.data.description}>
+  <div class="room tracker-room">
+    <article class="post">
+      <header class="post-header">
+        <a href="/tracker/" class="back-link">← tracker</a>
+        <h1 class="post-title">{post.data.title}</h1>
+        <div class="post-meta">
+          <time>{fmtDate(post.data.date)}</time>
+          {post.data.author && <span>— {post.data.author}</span>}
+        </div>
+        {post.data.description && <p class="post-description">{post.data.description}</p>}
+      </header>
+      <div class="post-body">
+        <Content />
+      </div>
+      <footer class="post-footer">
+        <span>— Tracker</span>
+      </footer>
+    </article>
+  </div>
+</BaseLayout>
+
+<style>
+  .tracker-room {
+    --room-bg: #1a1a14;
+    --room-text: #e8e0cc;
+    --room-text-secondary: #9e9680;
+    --room-accent: #c8973f;
+    --room-accent-soft: #d4a85a;
+    --room-border: #2a2a1e;
+    --room-surface: #222218;
+    --room-code: #7fb3a8;
+    --font-mono: 'JetBrains Mono', 'IBM Plex Mono', 'Fira Code', monospace;
+  }
+
+  .room {
+    background: var(--room-bg);
+    color: var(--room-text);
+    min-height: calc(100vh - 56px - 80px);
+    font-family: var(--font-mono);
+  }
+
+  .post {
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 3rem 1.5rem 5rem;
+    font-size: 0.9375rem;
+    line-height: 1.7;
+  }
+
+  .back-link {
+    display: inline-block;
+    font-size: 0.8rem;
+    color: var(--room-text-secondary);
+    margin-bottom: 2rem;
+    transition: color 0.15s;
+  }
+  .back-link:hover { color: var(--room-accent); }
+
+  .post-title {
+    font-size: clamp(1.4rem, 3.5vw, 2rem);
+    font-weight: 700;
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+    color: var(--room-text);
+    margin-bottom: 0.5rem;
+  }
+
+  .post-meta {
+    font-size: 0.8rem;
+    color: var(--room-text-secondary);
+    margin-bottom: 1rem;
+  }
+
+  .post-description {
+    font-size: 0.875rem;
+    color: var(--room-text-secondary);
+    border-left: 2px solid var(--room-accent);
+    padding-left: 0.75rem;
+    margin: 1.25rem 0 2.5rem;
+    line-height: 1.5;
+  }
+
+  /* Rigid four-section template styles */
+  .post-body :global(h2) {
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--room-accent);
+    margin: 2.5rem 0 0.75rem;
+    padding-bottom: 0.4rem;
+    border-bottom: 1px solid var(--room-border);
+  }
+
+  .post-body :global(p) {
+    margin: 0 0 1rem;
+  }
+
+  .post-body :global(ul), .post-body :global(ol) {
+    padding-left: 1.25rem;
+    margin: 0 0 1rem;
+  }
+
+  .post-body :global(li) {
+    margin-bottom: 0.3rem;
+    color: var(--room-text);
+  }
+
+  .post-body :global(strong) {
+    color: var(--room-text);
+    font-weight: 700;
+  }
+
+  .post-body :global(code) {
+    font-family: var(--font-mono);
+    font-size: 0.875em;
+    color: var(--room-code);
+    background: var(--room-surface);
+    padding: 0.1em 0.35em;
+    border-radius: 2px;
+  }
+
+  .post-body :global(pre) {
+    background: var(--room-surface);
+    border: 1px solid var(--room-border);
+    border-radius: 4px;
+    padding: 1rem;
+    overflow-x: auto;
+    margin: 1.25rem 0;
+  }
+
+  .post-body :global(pre code) {
+    background: none;
+    padding: 0;
+    color: var(--room-text);
+  }
+
+  .post-body :global(blockquote) {
+    border-left: 2px solid var(--room-accent);
+    padding-left: 0.75rem;
+    margin: 1.25rem 0;
+    color: var(--room-text-secondary);
+  }
+
+  .post-footer {
+    margin-top: 3rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--room-border);
+    font-size: 0.875rem;
+    color: var(--room-text-secondary);
+  }
+
+  @media (max-width: 600px) {
+    .post { padding: 2rem 1.25rem 3rem; }
+  }
+</style>

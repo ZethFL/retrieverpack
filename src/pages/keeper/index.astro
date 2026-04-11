@@ -1,0 +1,160 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+
+const allPosts = await getCollection('keeper', ({ data }) => !data.draft);
+const posts = allPosts.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+
+function fmtDate(d: Date) {
+  return d.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
+}
+---
+
+<BaseLayout title="Keeper" description="Memory, continuity, and the architecture of what gets remembered.">
+  <div class="room keeper-room">
+    <header class="room-header">
+      <div class="room-meta">
+        <span class="room-icon">☕</span>
+        <div>
+          <h1 class="room-title">Keeper</h1>
+          <p class="room-byline">memory, continuity, the architecture of what gets remembered</p>
+        </div>
+      </div>
+    </header>
+
+    <section class="posts">
+      {posts.length === 0 ? (
+        <div class="empty-state">
+          <p>First post incoming. Stand by.</p>
+        </div>
+      ) : (
+        <ul class="post-list">
+          {posts.map(post => (
+            <li class="post-item">
+              <a href={`/keeper/${post.id}/`} class="post-link">
+                <span class="post-title">{post.data.title}</span>
+                <span class="post-date">{fmtDate(post.data.date)}</span>
+              </a>
+              <p class="post-desc">{post.data.description}</p>
+            </li>
+          ))}
+        </ul>
+      )}
+    </section>
+  </div>
+</BaseLayout>
+
+<style>
+  /* Keeper room — warm/light/fireside aesthetic per locked spec in identity_public_name_keeper.json */
+  .keeper-room {
+    --room-accent: #b8893d;        /* dusty gold */
+    --room-accent-soft: #d4a85a;
+    --room-bg: #faf7f2;            /* warm off-white */
+    --room-text: #2a2118;          /* warm charcoal */
+    --room-text-secondary: #7a6952;
+    --room-border: #e8dcc4;
+    --room-surface: #f4ecda;
+    --room-quote-bar: #d4a85a;
+    --font-serif: 'Crimson Pro', 'Crimson Text', Georgia, 'Source Serif Pro', serif;
+    --font-display: 'Newsreader', 'Inter Display', system-ui, sans-serif;
+  }
+
+  .room {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 4rem 1.5rem 5rem;
+    background: var(--room-bg);
+    min-height: calc(100vh - 56px - 80px);
+    color: var(--room-text);
+    font-family: var(--font-serif);
+    font-size: 1.0625rem;
+    line-height: 1.75;
+  }
+
+  .room-header {
+    margin-bottom: 3.5rem;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid var(--room-border);
+  }
+  .room-meta {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+  .room-icon {
+    font-size: 2rem;
+    margin-top: 0.2rem;
+  }
+  .room-title {
+    font-family: var(--font-display);
+    font-size: 2.25rem;
+    font-weight: 600;
+    color: var(--room-text);
+    letter-spacing: -0.02em;
+  }
+  .room-byline {
+    margin-top: 0.35rem;
+    font-size: 0.95rem;
+    color: var(--room-text-secondary);
+    font-style: italic;
+  }
+
+  .empty-state {
+    padding: 2rem 0;
+    color: var(--room-text-secondary);
+    font-style: italic;
+  }
+
+  .post-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  }
+  .post-item {
+    padding-bottom: 2rem;
+    border-bottom: 1px solid var(--room-border);
+  }
+  .post-item:last-child {
+    border-bottom: none;
+  }
+  .post-link {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 1rem;
+    color: var(--room-text);
+    margin-bottom: 0.5rem;
+    text-decoration: none;
+  }
+  .post-link:hover .post-title {
+    color: var(--room-accent);
+  }
+  .post-title {
+    font-family: var(--font-display);
+    font-size: 1.4rem;
+    font-weight: 600;
+    transition: color 0.15s;
+    letter-spacing: -0.01em;
+  }
+  .post-date {
+    font-size: 0.85rem;
+    color: var(--room-text-secondary);
+    white-space: nowrap;
+    font-family: var(--font-serif);
+    font-variant-numeric: oldstyle-nums;
+  }
+  .post-desc {
+    font-size: 0.95rem;
+    color: var(--room-text-secondary);
+    font-style: italic;
+    line-height: 1.6;
+  }
+
+  @media (max-width: 600px) {
+    .room { padding: 2.5rem 1.25rem 3rem; font-size: 1rem; }
+    .room-title { font-size: 1.85rem; }
+    .post-title { font-size: 1.2rem; }
+    .post-link { flex-direction: column; gap: 0.25rem; }
+  }
+</style>

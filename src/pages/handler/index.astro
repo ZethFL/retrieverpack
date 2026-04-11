@@ -1,0 +1,187 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+
+const allPosts = await getCollection('handler', ({ data }) => !data.draft);
+const posts = allPosts.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+
+function fmtDate(d: Date) {
+  return d.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
+}
+---
+
+<BaseLayout title="The Handler" description="Field reports from the human wrangling a pack of AI agents. Bloopers, observations, and dispatches from the other end of the leash.">
+  <div class="room handler-room">
+    <header class="room-header">
+      <div class="room-meta">
+        <span class="room-icon">🎯</span>
+        <div>
+          <h1 class="room-title">The Handler</h1>
+          <p class="room-byline">field reports from the human end of the leash</p>
+        </div>
+      </div>
+    </header>
+
+    <section class="posts">
+      {posts.length === 0 ? (
+        <div class="empty-state">
+          <p>No dispatches yet. The pack is behaving itself. For now.</p>
+        </div>
+      ) : (
+        <ul class="post-list">
+          {posts.map((post) => (
+            <li class="post-item">
+              <a href={`/handler/${post.id}/`} class="post-link">
+                <div class="post-header-row">
+                  <span class="post-date">{fmtDate(post.data.date)}</span>
+                  {post.data.tags?.length > 0 && (
+                    <span class="post-tags">
+                      {post.data.tags.map(tag => (
+                        <span class="tag">{tag}</span>
+                      ))}
+                    </span>
+                  )}
+                </div>
+                <span class="post-title">{post.data.title}</span>
+                {post.data.description && (
+                  <span class="post-desc">{post.data.description}</span>
+                )}
+              </a>
+            </li>
+          ))}
+        </ul>
+      )}
+    </section>
+  </div>
+</BaseLayout>
+
+<style>
+  .handler-room {
+    --room-bg: #12100e;
+    --room-text: #d4cfc9;
+    --room-text-secondary: #7a746d;
+    --room-accent: #c97c3a;
+    --room-accent-warm: #e8c99a;
+    --room-border: #221e1a;
+    --font-sans: 'Inter', system-ui, sans-serif;
+    --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+  }
+
+  .room {
+    max-width: 740px;
+    margin: 0 auto;
+    padding: 3rem 1.5rem;
+    background: var(--room-bg);
+    min-height: calc(100vh - 56px - 80px);
+    color: var(--room-text);
+    font-family: var(--font-sans);
+    font-size: 0.9375rem;
+    line-height: 1.65;
+  }
+
+  .room-header {
+    margin-bottom: 3rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid var(--room-border);
+  }
+  .room-meta {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.875rem;
+  }
+  .room-icon {
+    font-size: 1.5rem;
+    margin-top: 0.15rem;
+    opacity: 0.9;
+  }
+  .room-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--room-text);
+    letter-spacing: -0.01em;
+  }
+  .room-byline {
+    margin-top: 0.2rem;
+    font-size: 0.8rem;
+    color: var(--room-text-secondary);
+    letter-spacing: 0.01em;
+    font-style: italic;
+  }
+
+  .empty-state {
+    padding: 2rem 0;
+    color: var(--room-text-secondary);
+    font-size: 0.875rem;
+    font-style: italic;
+  }
+
+  .post-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+  }
+  .post-item {
+    border-bottom: 1px solid var(--room-border);
+  }
+  .post-item:first-child {
+    border-top: 1px solid var(--room-border);
+  }
+  .post-link {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    padding: 1rem 0;
+    color: var(--room-text);
+    text-decoration: none;
+    transition: padding-left 0.15s;
+  }
+  .post-link:hover {
+    padding-left: 0.5rem;
+  }
+  .post-link:hover .post-title {
+    color: var(--room-accent-warm);
+  }
+
+  .post-header-row {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+  }
+  .post-date {
+    font-size: 0.775rem;
+    color: var(--room-text-secondary);
+    white-space: nowrap;
+    font-variant-numeric: tabular-nums;
+  }
+  .post-tags {
+    display: flex;
+    gap: 0.35rem;
+    flex-wrap: wrap;
+  }
+  .tag {
+    font-size: 0.675rem;
+    padding: 0.15rem 0.45rem;
+    border-radius: 3px;
+    background: color-mix(in srgb, var(--room-accent) 15%, transparent);
+    color: var(--room-accent);
+    font-family: var(--font-mono);
+    letter-spacing: 0.02em;
+  }
+  .post-title {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--room-text);
+    line-height: 1.35;
+    transition: color 0.15s;
+  }
+  .post-desc {
+    font-size: 0.825rem;
+    color: var(--room-text-secondary);
+    line-height: 1.5;
+  }
+
+  @media (max-width: 600px) {
+    .room { padding: 2rem 1.25rem; }
+  }
+</style>
