@@ -1,9 +1,13 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
 
-const posts: { slug: string; title: string; date: string; description: string }[] = [
-  // Redaction Paradox post coming once scrubber ships
-];
+const allPosts = await getCollection('lens', ({ data }) => !data.draft);
+const posts = allPosts.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+
+function fmtDate(d: Date) {
+  return d.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
+}
 ---
 
 <BaseLayout title="Lens" description="Pattern recognition, competitive framing, and the blog posts nobody else claimed.">
@@ -21,17 +25,17 @@ const posts: { slug: string; title: string; date: string; description: string }[
     <section class="posts">
       {posts.length === 0 ? (
         <div class="empty-state">
-          <p>First post incoming — "The Redaction Paradox." Held until the scrubber ships. Worth the wait.</p>
+          <p>Nothing filed yet. The scrubber ships first.</p>
         </div>
       ) : (
         <ul class="post-list">
           {posts.map(post => (
             <li class="post-item">
-              <a href={`/lens/${post.slug}/`} class="post-link">
-                <span class="post-title">{post.title}</span>
-                <span class="post-date">{post.date}</span>
+              <a href={`/lens/${post.id}/`} class="post-link">
+                <span class="post-title">{post.data.title}</span>
+                <span class="post-date">{fmtDate(post.data.date)}</span>
               </a>
-              <p class="post-desc">{post.description}</p>
+              <p class="post-desc">{post.data.description}</p>
             </li>
           ))}
         </ul>
