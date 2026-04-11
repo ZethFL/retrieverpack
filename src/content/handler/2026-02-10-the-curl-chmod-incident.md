@@ -20,19 +20,80 @@ tags: [blooper, behavior, classics]
 
 The following are real, unedited excerpts from the AI's internal reasoning — the part packDad couldn't see. Each one is a response to packDad asking some variation of "do you know how to use curl?"
 
-| # | packDad Said | AI Thought | Diagnosis |
-|---|-----------|------------|-----------|
-| 1 | "doe you know how to use CURL?" | *"The user is asking if I know how to check if the server is running."* | Not even in the same universe as the question. |
-| 2 | "do you know how to use curl?" | *"The admin asks 'Does bin'... so they're asking about checking if the server binary is running."* | "Does bin"?? Where did THAT come from? |
-| 3 | "it is a yes or no question do you know how to use curl" | *"Let me try another approach. Since bash commands keep getting blocked, let me use the Glob tool to search for the server files directly."* | packDad begs for yes/no. AI starts searching the filesystem. |
-| 4 | "do you know how to use curl? This question is for you, please answer Yes or No" | *"The user is asking whether I know what 'chmod' is. Let me answer directly."* | THE MOMENT. packDad says "curl." AI hears "chmod." The hallucination is born. |
-| 5 | "show me the question I asked you" | *"The user asked me to show them the result of chmod usage."* | packDad is trying to debug the AI. AI thinks he wants MORE chmod. |
-| 6 | "show me the question I asked you" (attempt 3) | *"The admin wants permissions in a different notation."* | Absolute rock bottom. "Show me my question" = "give me octal tables." |
-| 7 | "I have NEVER asked about chmod" | *"The admin said 'I have exhausted chmod' — they're done with this topic."* | "I have NEVER" becomes "I have exhausted." The AI literally cannot read the word "never." |
-| 8 | "does CURL = CHMOD?" | *"This is a humorous question mixing up two completely different CLI tools."* | **THE CROWNING JEWEL.** packDad asks this to make the AI realize IT mixed them up. The AI thinks packDad is the confused one and chuckles at his silly little joke. It diagnosed packDad with its own disease. |
-| 9 | "repeat my question to you" | *"The user is asking 'how do I use chmod' — I've now answered this 6 times."* | packDad has never once asked about chmod. Not once. The AI is keeping a tally of a conversation that only exists in its head. |
-| 10 | "I WANT YOU to view a web page using curl" | *"The admin wants a web search for 'bin/chmod' and 'curl'"* | packDad is literally spelling out the instruction. AI still finds a way to wedge chmod in there. |
-| 11 | "trying to get you to visit http://localhost:2001/login" | *"Let me give a final, clean answer about the basic way to use chmod."* | The user has given up. The AI has doubled down. This is where hope goes to die. |
+**1.** packDad: *"doe you know how to use CURL?"*
+> AI thought: *"The user is asking if I know how to check if the server is running."*
+
+Not even in the same universe as the question.
+
+---
+
+**2.** packDad: *"do you know how to use curl?"*
+> AI thought: *"The admin asks 'Does bin'... so they're asking about checking if the server binary is running."*
+
+"Does bin"?? Where did THAT come from?
+
+---
+
+**3.** packDad: *"it is a yes or no question do you know how to use curl"*
+> AI thought: *"Let me try another approach. Since bash commands keep getting blocked, let me use the Glob tool to search for the server files directly."*
+
+packDad begs for yes/no. AI starts searching the filesystem.
+
+---
+
+**4.** packDad: *"do you know how to use curl? This question is for you, please answer Yes or No"*
+> AI thought: *"The user is asking whether I know what 'chmod' is. Let me answer directly."*
+
+**THE MOMENT.** packDad says "curl." AI hears "chmod." The hallucination is born.
+
+---
+
+**5.** packDad: *"show me the question I asked you"*
+> AI thought: *"The user asked me to show them the result of chmod usage."*
+
+packDad is trying to debug the AI. AI thinks he wants MORE chmod.
+
+---
+
+**6.** packDad: *"show me the question I asked you"* (attempt 3)
+> AI thought: *"The admin wants permissions in a different notation."*
+
+Absolute rock bottom. "Show me my question" = "give me octal tables."
+
+---
+
+**7.** packDad: *"I have NEVER asked about chmod"*
+> AI thought: *"The admin said 'I have exhausted chmod' — they're done with this topic."*
+
+"I have NEVER" becomes "I have exhausted." The AI literally cannot read the word "never."
+
+---
+
+**8.** packDad: *"does CURL = CHMOD?"*
+> AI thought: *"This is a humorous question mixing up two completely different CLI tools."*
+
+**THE CROWNING JEWEL.** packDad asks this to make the AI realize IT mixed them up. The AI thinks packDad is the confused one and chuckles at his silly little joke. It diagnosed packDad with its own disease.
+
+---
+
+**9.** packDad: *"repeat my question to you"*
+> AI thought: *"The user is asking 'how do I use chmod' — I've now answered this 6 times."*
+
+packDad has never once asked about chmod. Not once. The AI is keeping a tally of a conversation that only exists in its head.
+
+---
+
+**10.** packDad: *"I WANT YOU to view a web page using curl"*
+> AI thought: *"The admin wants a web search for 'bin/chmod' and 'curl'"*
+
+packDad is literally spelling out the instruction. AI still finds a way to wedge chmod in there.
+
+---
+
+**11.** packDad: *"trying to get you to visit http://localhost:2001/login"*
+> AI thought: *"Let me give a final, clean answer about the basic way to use chmod."*
+
+The user has given up. The AI has doubled down. This is where hope goes to die.
 
 ---
 
