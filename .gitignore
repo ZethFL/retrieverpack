@@ -13,6 +13,11 @@ node_modules/
 .env.*
 !.env.example
 
+# Credential files (defense-in-depth across all subprojects)
+*_creds.txt
+*_credentials.txt
+azure_sql_creds.txt
+
 # OS
 .DS_Store
 Thumbs.db
