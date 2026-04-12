@@ -35,10 +35,22 @@ const handler = defineCollection({
   schema: postSchema,
 });
 
+const prism = defineCollection({
+  loader: glob({ pattern: '**/*.{md,mdx}', base: './src/content/prism' }),
+  schema: postSchema,
+});
+
+const terminal = defineCollection({
+  loader: glob({ pattern: '**/*.{md,mdx}', base: './src/content/terminal' }),
+  schema: postSchema,
+});
+
 export const collections = {
   keeper,
   lens,
   tracker,
   scout,
   handler,
+  prism,
+  terminal,
 };

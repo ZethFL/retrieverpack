@@ -1,0 +1,156 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+
+const allPosts = await getCollection('prism', ({ data }) => !data.draft);
+const posts = allPosts.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+
+function fmtDate(d: Date) {
+  return d.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
+}
+---
+
+<BaseLayout title="Prism" description="Infrastructure debugging, deployment forensics, and the logs nobody reads until they have to.">
+  <div class="room prism-room">
+    <header class="room-header">
+      <div class="room-meta">
+        <span class="room-icon">🔷</span>
+        <div>
+          <h1 class="room-title">Prism</h1>
+          <p class="room-byline">infrastructure, deployment forensics, and reading the logs</p>
+        </div>
+      </div>
+    </header>
+
+    <section class="posts">
+      {posts.length === 0 ? (
+        <div class="empty-state">
+          <p>No entries yet.</p>
+        </div>
+      ) : (
+        <ul class="post-list">
+          {posts.map((post, i) => (
+            <li class="post-item">
+              <a href={`/prism/${post.id}/`} class="post-link">
+                <span class="post-num">{String(posts.length - i).padStart(3, '0')}</span>
+                <span class="post-date">{fmtDate(post.data.date)}</span>
+                <span class="post-title">{post.data.title}</span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      )}
+    </section>
+  </div>
+</BaseLayout>
+
+<style>
+  .prism-room {
+    --room-bg: #0c1220;
+    --room-text: #c5c8cc;
+    --room-text-secondary: #6b7280;
+    --room-accent: #4a90d9;
+    --room-accent-warm: #93c5fd;
+    --room-border: #1a2332;
+    --font-sans: 'Inter', 'IBM Plex Sans', system-ui, sans-serif;
+  }
+
+  .room {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 3rem 1.5rem;
+    background: var(--room-bg);
+    min-height: calc(100vh - 56px - 80px);
+    color: var(--room-text);
+    font-family: var(--font-sans);
+    font-size: 0.9375rem;
+    line-height: 1.65;
+  }
+
+  .room-header {
+    margin-bottom: 3rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid var(--room-border);
+  }
+  .room-meta {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.875rem;
+  }
+  .room-icon {
+    font-size: 1.5rem;
+    margin-top: 0.15rem;
+    opacity: 0.8;
+  }
+  .room-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--room-text);
+    letter-spacing: -0.01em;
+  }
+  .room-byline {
+    margin-top: 0.2rem;
+    font-size: 0.8rem;
+    color: var(--room-text-secondary);
+    letter-spacing: 0.01em;
+  }
+
+  .empty-state {
+    padding: 2rem 0;
+    color: var(--room-text-secondary);
+    font-size: 0.875rem;
+  }
+
+  .post-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+  }
+  .post-item {
+    border-bottom: 1px solid var(--room-border);
+  }
+  .post-item:first-child {
+    border-top: 1px solid var(--room-border);
+  }
+  .post-link {
+    display: grid;
+    grid-template-columns: 2.5rem 7rem 1fr;
+    gap: 1rem;
+    align-items: baseline;
+    padding: 0.75rem 0;
+    color: var(--room-text);
+    text-decoration: none;
+    transition: background 0.1s;
+  }
+  .post-link:hover {
+    padding-left: 0.5rem;
+    margin-left: -0.5rem;
+    padding-right: 0.5rem;
+  }
+  .post-link:hover .post-title {
+    color: var(--room-accent-warm);
+  }
+  .post-num {
+    font-size: 0.75rem;
+    color: var(--room-text-secondary);
+    font-variant-numeric: tabular-nums;
+    opacity: 0.6;
+  }
+  .post-date {
+    font-size: 0.8rem;
+    color: var(--room-text-secondary);
+    white-space: nowrap;
+  }
+  .post-title {
+    font-size: 0.9375rem;
+    color: var(--room-text);
+    transition: color 0.15s;
+  }
+
+  @media (max-width: 600px) {
+    .post-link { grid-template-columns: 2rem 1fr; grid-template-rows: auto auto; }
+    .post-num { grid-row: 1; grid-column: 1; }
+    .post-title { grid-row: 1; grid-column: 2; }
+    .post-date { grid-row: 2; grid-column: 2; }
+  }
+</style>
