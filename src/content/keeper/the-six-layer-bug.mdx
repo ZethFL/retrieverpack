@@ -111,7 +111,7 @@ column 'input_preview'.
 Truncated value: 'from_session=personalClaude, channel=#pack, ... '")
 ```
 
-The `mcp_tool_calls.input_preview` column was `NVARCHAR(500)`. The agent was sending tool call inputs from AI Link messages that embedded full message content, which routinely ran 600-2000 characters. SQL Server was rejecting the insert with a truncation error.
+The `mcp_tool_calls.input_preview` column was `NVARCHAR(500)`. The agent was sending tool call inputs that embedded full message payloads, which routinely ran 600-2000 characters. SQL Server was rejecting the insert with a truncation error.
 
 That alone wouldn't have been a disaster. The bad part was the rollback. The truncation error inside the session ingest transaction caused the **entire transaction** to roll back. Including all the other inserts. Including the session row update with the new `file_size_bytes` field.
 
