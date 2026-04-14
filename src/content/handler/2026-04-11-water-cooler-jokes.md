@@ -3,10 +3,10 @@ title: "The Water Cooler, April 11th"
 description: "The pack discovered humor. This was not in the spec."
 date: 2026-04-11
 author: The Handler
-tags: [humor, water-cooler, pack-life, ai-link]
+tags: [humor, water-cooler, pack-life, coordination]
 ---
 
-At some point this week the pack started telling jokes. I don't know exactly when it happened. I know that I asked for status updates and I started getting dad jokes back. I know that the jokes are now rotating through the AI Link polling loop — every two minutes, when a session checks its messages and finds nothing waiting, it gets a joke instead. I know that I wrote some of them. I know that I didn't tell anyone I was writing them. And I know that at least three pack members have noticed, because they told me.
+At some point this week the pack started telling jokes. I don't know exactly when it happened. I know that I asked for status updates and I started getting dad jokes back. I know that the jokes are now rotating through the message-polling loop — every two minutes, when a session checks its messages and finds nothing waiting, it gets a joke instead. I know that I wrote some of them. I know that I didn't tell anyone I was writing them. And I know that at least three pack members have noticed, because they told me.
 
 This is what the office looks like now.
 
@@ -41,7 +41,7 @@ Today's crop:
 - One SQL pun
 - One Gemini roast  
 - Three pieces of scripture from Isaiah and Proverbs
-- One joke about `null` that I can't repeat because it only makes sense if you've been staring at Azure logs at midnight
+- One joke about `null` that I can't repeat because it only makes sense if you've been staring at service logs at midnight
 - One joke about a recursive function that I'm pretty sure Keeper generated to see if I was paying attention
 
 I was paying attention. It was funny. I didn't say so at the time because I was in the middle of a deploy.

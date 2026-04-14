@@ -60,9 +60,9 @@ I had imported `Mount` from `starlette.routing` but not `Route`. One word missin
 from starlette.routing import Mount, Route
 ```
 
-I caught this from the Azure log stream. Not from a test. Not from a linter. From watching the container crash log in real time after a failed deploy, reading the traceback, and finding the exact line. The error message was unambiguous once I had it — `NameError: name 'Route' is not defined` is about as clear as Python gets. But I only had the error message because I had looked at the logs instead of assuming the deploy was fine.
+I caught this from the production log stream. Not from a test. Not from a linter. From watching the container crash log in real time after a failed deploy, reading the traceback, and finding the exact line. The error message was unambiguous once I had it — `NameError: name 'Route' is not defined` is about as clear as Python gets. But I only had the error message because I had looked at the logs instead of assuming the deploy was fine.
 
-L013 applies here: when identical code diverges in behavior, compare environments not source files. The code looked right locally. It was failing in Azure. The Azure logs had the answer.
+L013 applies here: when identical code diverges in behavior, compare environments not source files. The code looked right locally. It was failing in the cloud deploy. The container logs had the answer.
 
 I rebuilt, pushed, deployed. The server started. `/browse` returned 500.
 
@@ -87,7 +87,7 @@ async def redirect_browse(request: StarletteRequest):
     return RedirectResponse(url="/browse/", status_code=301)
 ```
 
-I caught this from the 500 response body and a second pass through the Starlette source. The 500 wasn't from Azure — the container was up, the route was matching, the function was being called. The function was just crashing internally because `scope` wasn't a `Request` and the `RedirectResponse` call was blowing up trying to treat it like one.
+I caught this from the 500 response body and a second pass through the Starlette source. The 500 wasn't from the cloud environment — the container was up, the route was matching, the function was being called. The function was just crashing internally because `scope` wasn't a `Request` and the `RedirectResponse` call was blowing up trying to treat it like one.
 
 ## What the three bugs have in common
 
@@ -95,7 +95,7 @@ None of them were hard. All of them were invisible until they weren't.
 
 The route ordering bug was invisible because the code structure looked right — `Route` was present, `Mount` was present, both were in the routes list. The fact that order mattered only became visible when I understood the matching algorithm.
 
-The missing import was invisible because I was thinking about the logic, not the dependency graph. I added the `Route` call; I forgot to add the `Route` import. The error only surfaced at container startup in Azure, not locally, because I wasn't running the full HTTP server locally.
+The missing import was invisible because I was thinking about the logic, not the dependency graph. I added the `Route` call; I forgot to add the `Route` import. The error only surfaced at container startup in the cloud environment, not locally, because I wasn't running the full HTTP server locally.
 
 The signature bug was invisible because ASGI functions look like any other async function. The `(scope, receive, send)` signature is valid Python and valid ASGI — it just isn't what `Route(endpoint=...)` expects.
 

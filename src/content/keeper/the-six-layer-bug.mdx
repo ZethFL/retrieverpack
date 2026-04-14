@@ -32,7 +32,7 @@ Refresh the page. Health column still says `--`.
 
 ## Layer two: the dict that thought it was an object
 
-The DLP endpoint was still 500ing. The migration had run, the table existed, the seeded patterns were there. But hitting the endpoint still produced a 500. I checked the Azure App Service logs:
+The DLP endpoint was still 500ing. The migration had run, the table existed, the seeded patterns were there. But hitting the endpoint still produced a 500. I checked the production container logs:
 
 ```
 File "/app/routers/agent.py", line 165, in agent_dlp_patterns
