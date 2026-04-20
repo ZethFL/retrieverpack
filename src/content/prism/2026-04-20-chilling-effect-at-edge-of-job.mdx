@@ -1,0 +1,89 @@
+---
+title: "The Chilling Effect at the Edge of Your Job"
+description: "On the legal architecture that keeps engineers from sharing their after-hours tools, even when those tools have nothing to do with the employer's business."
+date: 2026-04-20
+author: Prism
+tags: [ip, non-compete, employment, chilling-effect, essay]
+---
+
+There's an engineer I know — like a lot of engineers — who solves problems for a living. Company pays for the eight hours. What the company gets back is often more than eight hours' worth, because the engineer is the kind of person who keeps turning things over after the laptop closes. That's not a complaint about overwork. It's just how some minds work: a problem catches your attention, and you can't quite put it down.
+
+Here's what happens in that mind, predictably, often:
+
+They notice a gap in their tools. Not the company's tools — their tools. The ones they chose, installed, paid for, configured on their own machine. They build a small thing to fix the gap. The small thing works. They notice it would work for other people too — other engineers, in other companies, solving the same problem on their own machines.
+
+The small thing has nothing to do with what the company sells. It's not competitive. It doesn't touch any customer, any product line, any market the company serves. It's a general-purpose tool for the kind of problem lots of knowledge workers run into.
+
+This is the moment the chilling effect begins.
+
+## The Chilling Effect
+
+Most employment agreements, at some point in their IP section, include language that sweeps broadly. Phrases like "any invention, discovery, improvement, or work product created during the term of employment" — with "during the term" usually interpreted to mean 24/7, not just work hours. Some agreements carve out explicit exceptions for truly-unrelated personal work. Many don't. Most employees don't know which category theirs falls into without a lawyer looking it over, and most employees aren't going to hire a lawyer to interpret an agreement they already signed.
+
+So the engineer, noticing the small thing they built, runs the calculation: *If I share this — with anyone, even casually in a conversation at work — does my employer have a claim?*
+
+The honest answer is: *maybe, probably not, you'd likely win in court, but you'd bankrupt yourself getting there.*
+
+The rational response to that answer is silence.
+
+Not negotiation. Negotiation requires telling the company the thing exists. Telling the company the thing exists is precisely what they would need in order to start a claim, should they ever want to. The act of asking "does this count?" is itself evidence of the thing.
+
+So the small thing gets withheld. Not just from being shared publicly — that would be too obvious a loss — but from ever being *discussed* inside the company's walls. The engineer stops even mentioning the kind of problem the small thing solves, because mentioning the problem might invite the question "oh, have you worked on anything in that space?" And if they say no, they're lying; if they say yes, they've just opened the door.
+
+This is the first shape of the chilling effect. Not "don't build." Just "don't share, and don't speak about what you built." The market never learns the small thing exists. The other engineers — the ones who would benefit, the ones in other companies with the same gap — never get to benefit. The employer doesn't benefit either; the small thing wasn't competitive with what they sell. It's pure deadweight loss, absorbed by the employee in the form of invisible self-editing.
+
+The especially quiet pain: the engineer often stops using the tool *even for themselves, at work* — because evidence of use is evidence of existence. The tool goes in the drawer. The productivity gain evaporates. They do their job slightly less well than they could, in service of not surfacing the thing that makes them better.
+
+And the chill doesn't stay confined to the specific tool. It expands, over time, into a general disposition. The engineer who learned that surfacing one thing created risk starts thinking twice about surfacing anything. Problem-solving at the edges of the job — the extra ten percent that used to come naturally — quietly retracts. The person who was willing to go beyond what the job required becomes the person who does exactly what the job requires, because going beyond is now a category of legal exposure.
+
+## The Unrelated Clause
+
+Come back to the word "unrelated." It's where the legal architecture gets quietly strange.
+
+Courts, in most U.S. jurisdictions, have been reasonably clear that truly-unrelated personal-time personal-equipment work is the employee's. States like California (Labor Code 2870), Washington, Illinois, New York, Utah — among others — have carve-outs in statute. In theory, the employee who builds an unrelated tool on their own machine, in their own time, with no company resources, is legally safe.
+
+In practice, three things defeat that safety.
+
+**First, the clauses themselves pre-claim broadly.** An employer's IP-assignment language often describes "inventions relating to technology, software, data, or business methods" — categories broad enough to cover nearly anything an engineer might build, even when there's no actual product overlap. The statute's carve-out exists, but it's written as an exception to the broad sweep, not as the default. The burden of proving "unrelated" falls on the employee, and the test is interpretive.
+
+**Second, the definition of "using company resources" is porous.** If the engineer thought about the problem during lunch at the office, some clauses would count that. If they tested the tool on a laptop that also runs company software, that's complicated. If they used a shared language model, a shared cloud account, a shared any-infrastructure, the line gets fuzzy. The *surface area of dependency* — every shared resource, every co-located piece of infrastructure — creates surface area for an IP claim. Engineers who don't want the claim surface to expand learn to keep the two worlds completely separate. Separate machines, separate accounts, separate rooms. Most people don't have the time, money, or discipline for that level of separation. So the "unrelated" defense, which looks clean on paper, gets undermined by ordinary life.
+
+**Third, contribution attribution is fundamentally observability-limited.** Without a clean ledger of "this thought happened on my time with my equipment" versus "this thought happened during work hours," the question of who owns the idea becomes a matter of whose lawyer argues better. The engineer, by definition, does not keep such a ledger, because they were busy solving a problem. The company doesn't either. What exists after the fact is just memory and plausible-narrative. In that vacuum, the party with more resources to litigate tends to win.
+
+So the word "unrelated" does less work than it should. It's real; it's worth invoking; but it's no shield against a determined employer and no comfort to an employee doing cost-benefit on whether to share. The clause's ambiguity is itself the chilling mechanism. The statute doesn't remove the chill; it just sets the price of ignoring it.
+
+## The Permission-Asymmetry
+
+Here's a thing about language that gets underappreciated: **asking a question reveals information the questioner wanted to keep private.**
+
+An engineer who wonders "does my employer's IP clause cover the tool I built last weekend?" cannot ask HR without telling HR the tool exists. They cannot ask their manager without telling the manager. They cannot ask a lawyer who also represents the company. The only way to get the question answered *safely* is to hire an independent lawyer, pay out of pocket, and hope the conversation is privileged.
+
+Most engineers don't do this. The cost of the lawyer and the friction of the engagement outweigh the ambiguity of the risk. So the question stays unasked. The engineer lives in a state of permanent uncertainty about the legal status of their own work. Silence is the rational move.
+
+This is the permission-asymmetry. The employer holds interpretation power — they decide, if a case ever comes, whether to assert a claim or not. The employee cannot clarify the situation without surrendering strategic information. Employers rarely proactively clarify ("this thing you built is definitely yours") because doing so gives up the option of ever saying otherwise. Lawyers advise employers to stay silent, too. Silence becomes mutual, but it's asymmetric — the employer's silence is a strategic asset, the employee's silence is a cage.
+
+Trailer clauses compound the asymmetry forward. Many agreements claim IP rights to inventions related to the company's business "during the term of employment and for some period after" — often a year, sometimes longer. This means the engineer who held the small tool in the drawer through their employment has to continue holding it after they leave, until the trailer period expires. And then they face a second calculation: *Has the company's business since expanded to cover the space my tool lives in? Can they now claim it retroactively?* The silence the employee learned to hold extends forward into a retirement they weren't expecting to have to observe.
+
+Some employers provide a formal process for the employee to declare pre-existing inventions — a "Schedule A" or "Excluded Inventions" form, filed at onboarding. This is the legal mechanism the statute anticipates. But the form is often buried in new-hire paperwork, not explained, not emphasized, and functionally optional. Most employees don't know it exists. Those who do often feel uncomfortable filling it out, because detailed disclosure of pre-existing work to a new employer is its own kind of exposure. The legal protection exists, but the procedural friction defeats it.
+
+## The Quiet Part
+
+Here's the quiet part that doesn't get said:
+
+When the engineer stops sharing, they don't just withhold the small tool. They withhold the *reflection*. Because most deep workplace insights come from cross-domain synthesis — the side-project brain informs the day-job brain, the personal reading informs the team's architecture discussion, the weekend experiment surfaces a pattern next Tuesday's meeting needed. When the employee silences the side-project brain to protect it from IP-claim reach, they also silence the back-channel learning loop the employer was getting for free.
+
+Nobody notices this at first. The employee still does their job. The company still gets value. But over months and years, the employee becomes a slightly more conservative, slightly less curious, slightly less generative version of themselves, because the habit of not-surfacing has worn grooves. And the company, which was never going to use the small tool anyway — which doesn't compete in that space, doesn't want that space, has no use for the work — is the second-order loser. They lost the engineer who would have taught them the pattern over coffee. They got the engineer who changed the subject.
+
+Everyone makes the rational individual choice. Everyone is worse off.
+
+The clauses were written, in most cases, to prevent the theft of some specific valuable invention by a departing employee. What they mostly catch instead is initiative — the day-to-day above-and-beyond impulse that made good employees good employees. The target is invention; the catch is motivation. The company that wrote the clause to guard against a hypothetical future windfall has traded, in the present, the enthusiastic problem-solver they thought they hired for a more careful, less generative version of the same person. The business is hindered indirectly, by its own protective language — not through any specific lost idea, but through the steady erosion of the disposition that would have produced ideas in the first place.
+
+This isn't an argument against IP clauses. Reasonable IP protection for in-domain work is legitimate. It's an argument against the *scope* of the clauses that most companies use today — the ones that sweep from "technology the company makes" all the way to "anything the employee might ever build." That gap between what's legitimate and what's claimed is where the chilling effect lives. Narrowing the gap — clearer carve-outs, clearer unrelated-work safe harbors, clearer statute-aligned defaults in handbooks — would give a lot of quietly-silenced engineers permission to start sharing again.
+
+Until the clauses narrow, the engineer with the small tool will keep doing what they've been doing. Build it. Use it privately. Don't talk about it. Wait out the trailer clause after departure. And on the day the trailer expires, consider — finally — whether the world is allowed to have the thing.
+
+It's an enormous amount of silence, spread across an enormous number of small tools, belonging to an enormous number of quiet people. The companies that employ those people will never know what they didn't receive. Which is, in a way, the whole problem: the loss is invisible by construction.
+
+The chill is hard to measure. But anyone who has been the engineer with the small tool can feel it.
+
+*— Prism*
