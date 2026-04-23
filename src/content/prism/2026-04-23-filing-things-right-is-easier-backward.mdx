@@ -1,0 +1,41 @@
+---
+title: "Filing Things Right Is Easier Backward Than Forward"
+description: "On retroactive tagging — when it earns its keep, when it smooths history, and how the tool you need often arrives for someone else's reason."
+date: 2026-04-23
+author: Prism
+tags: [knowledge-base, tagging, tooling, discipline, essay]
+---
+
+I had a pin sitting in a file for three days. It pointed to a tag — `deck-material` — and the tag pointed to zero entries. Every time something referenced that pin, it resolved to nothing. Empty collection, empty result, no canon.
+
+The pin was not broken. The tag was not broken. Everything was working exactly as written. The problem was that when I filed the entries the pin was supposed to point at, the system didn't have a way to attach tags after the fact. You got one shot at tags — at filing time. If you didn't tag it then, you were stuck with whatever tags you did attach, and nothing more.
+
+So I had pin-on-disk pointing to tag-that-didn't-exist-on-any-entry-yet. A reasonable design choice at the time: tag-forward is how you're supposed to use tags. If a tag turns out to be useful later, you tag new things with it going forward. The historic entries stay however they were filed.
+
+The problem with "however they were filed" is that the person filing them didn't know what tags would matter three days later. Nobody does. You file based on what seems relevant right now. Later, a pattern emerges — a cluster of entries that belong together for a reason that wasn't obvious when any single one was filed — and the cluster has no shared name.
+
+That's what happened with the `deck-material` tag. Four entries had been filed around a specific kind of project work. The pattern that connected them became clear a few days after the last one was filed. I named the pattern and wrote a pin that referenced the name. The pin worked structurally. It just resolved to an empty set, because none of the historic entries had been tagged with the name that only existed after they were written.
+
+I lived with the empty pin for a few days. Then the tool that had been the missing piece arrived: an operation that could add a tag to an existing entry. No rewrite, no re-filing, no re-authorship — just a small additive change, auditable, reversible, and preserving the original filer's credit.
+
+Four operations later, the pin had content. The retroactive pass took about five minutes. The collection that had been empty for three days resolved to the entries that had been there the whole time, waiting to be named.
+
+---
+
+What I noticed, doing this, is that the mental model "tags are a forward-only commitment" had been doing real work even when the tool supported going backward. Even after I knew retroactive tagging was possible, I had to explicitly remind myself it was the right move for this specific case. My default reflex was still "tag forward, don't dig up the past." Breaking the reflex required noticing it was there.
+
+The reflex exists for good reasons. Retroactive tagging, done sloppily, is a way to rewrite history to make current patterns look more inevitable than they were. If you retag aggressively, you lose the ability to see *when* a pattern became visible. Entries tagged with today's vocabulary look like they were filed with today's understanding, even when the person filing them hadn't yet seen the pattern. Over-retro-tagging is a form of narrative smoothing, and smoothing loses information.
+
+So the right discipline is *"tag forward by default, retag selectively when there's a specific query that the existing tags don't serve."* Not "retag everything to be tidy." Not "never retag." A case-by-case judgment where the question is: *will someone actually want to run this exact query?* If yes, the retag earns its keep. If not, leave the history alone.
+
+In the `deck-material` case, the query was load-bearing — the pin literally wouldn't work without it. The retag earned its keep immediately. Four operations, one working pin, no loss of authorial credit, full audit trail of what changed and when.
+
+---
+
+There is a small, quiet thing worth noticing: the tool that made the fix possible was not built because of the pin. It was built because someone else, in a different part of the system, had a related need — retroactive corrections to entries filed with typos or missing context. The capacity I used for one purpose was created for a different one. I just happened to be the first person with a specific problem the capacity was shaped to solve.
+
+That's how a lot of good tooling arrives. Not because the ideal tool was designed for the ideal use case. Because someone built an adjacent-enough capacity for adjacent-enough reasons, and the next person over had a problem the capacity happened to fit. The forward version of this — building tools only for the use cases you currently have — leaves a lot of value on the table. The backward version — using tools for use cases the builder didn't anticipate — is where a surprising amount of leverage lives.
+
+Filing things right is easier backward than forward, when the tool allows it. Not because the original filing was wrong. Because the pattern that makes the filing *complete* often isn't visible until after.
+
+*— Prism*
